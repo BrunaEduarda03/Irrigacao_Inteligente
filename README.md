@@ -1,16 +1,16 @@
 # Irrigacao Inteligente 🪴
 Irrigação Inteligente – Sua Planta sempre bem cuidada!
 
-## Sobre  :speech_balloon:
+## :speech_balloon: Sobre 
 O projeto tem como objetivo o desenvolvimento de um sistema de irrigação automatizadode de baixo custo e com pequeno consumo elétrico, que tem como objetivo realizar o monitoramento da umidade do solo por meio de um sensor, exibindo em uma interface web os dados de tempo, umidade e temperatura obtidas por meio de módulos específicos. Com o auxílio de um aplicativo, é possível visualizar os dados em tempo real, além de propocionar conforto e praticidade aos usuários.
 
-## Objetivos Especificos :memo:
+## :memo: Objetivos Especificos 
 * Controlar as funcionalidades,ativando manualmente ou automaticamente a água.
 * Monitorar e exibir dados em tempo real.
 * Compartilhar informações de Status dos sensores via servidor web;
 * Implementar notificações e alarmes.
 
-## Materiais utilizados :card_index_dividers:
+## :card_index_dividers: Materiais utilizados 
 
 * Microcontrolador ESP8266;
 * Sensor de temperatura DHT11;
@@ -42,7 +42,7 @@ Insira sua rede wifi no código
 #define PASSWD senha_do_wifi 
 ```
 
-## 🗃️: Arquitetura   
+## 🗃️ Arquitetura   
 
 ### Esquemático :bar_chart:
 <h1>
@@ -54,7 +54,7 @@ Insira sua rede wifi no código
 <img alt="irrigacao" src="https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/3b9a8fb2-f360-42b7-8c9b-528b3878e28b" width="800px" align="center" />
 </h1> 
 
-### Inteface Gráfica - Blynk 📶
+### 📶 Inteface Gráfica - Blynk
 Aplicativo :iphone:
 <h1>
 <img alt="irrigacao" src="https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/8c3ad603-de22-4c77-8337-5d4a6348ba58" width="400px" align="center" />
@@ -66,7 +66,7 @@ Navegador 🖥️
 
 ## :technologist: Demo 
 
-## :speaking_head: Nos dê feedbacks sobre o projeto!
+## :speaking_head: Feedbacks sobre o projeto!
 E-mail: [**brunaduda37@gmail.com**](mailto:brunaduda37@gmail.com)
 
 Linkedin: [Bruna Eduarda](https://www.linkedin.com/in/bruna-eduarda-a06a1b18b/)
