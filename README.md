@@ -33,7 +33,7 @@ git clone git@github.com:BrunaEduarda03/Irrigacao_Inteligente.git
 ```
 
 
-* Baixe e instale o Esp32 no ambiente de desenvolvimento do Arduino ou baixe o VsCode e instale a extensão plataformIO.
+* Baixe e instale o Esp8266 no ambiente de desenvolvimento do Arduino ou baixe o VsCode e instale a extensão plataformIO.
 * Instale o nodeMCU com a IDE e Instale as bibliotecas da pasta lib no seu arquivo local de bibliotecas.
 
 Insira sua rede wifi no código
@@ -51,13 +51,13 @@ Insira sua rede wifi no código
 
 ### Montagem do Circuito :zap:
 <h1>
-<img alt="irrigacao" src="https://github.com/BrunaEduarda03/SmartAir/assets/73250271/8c0a19e1-ce4e-4180-b771-27e887fce724" width="800px" align="center" />
+<img alt="irrigacao" src="https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/3b9a8fb2-f360-42b7-8c9b-528b3878e28b" width="800px" align="center" />
 </h1> 
 
 ### Inteface Gráfica - Blynk 📶
 Aplicativo :iphone:
 <h1>
-<img alt="irrigacao" src="https://github.com/BrunaEduarda03/SmartAir/assets/73250271/57144797-1da3-47ce-82af-8434ccef1940" width="800px" align="center" />
+<img alt="irrigacao" src="https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/8c3ad603-de22-4c77-8337-5d4a6348ba58" width="400px" align="center" />
 </h1> 
 Navegador 🖥️
 <h1>
