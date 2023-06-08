@@ -61,7 +61,7 @@ Aplicativo :iphone:
 </h1> 
 Navegador 🖥️
 <h1>
-<img alt="irrigacao" src="https://github.com/BrunaEduarda03/SmartAir/assets/73250271/cacc5cd9-40f2-448c-a1cd-127545383daf" width="800px" align="center" />
+<img alt="irrigacao" src="https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/12a8baa2-a76b-4081-829e-41cf7852398b" width="800px" align="center" />
 </h1> 
 
 ## :technologist: Demo 
