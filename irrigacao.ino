@@ -28,11 +28,11 @@ float airTemp = 0;
 
 /* Soil airHumidity */
 #define soilHumPIN 2
-float soilHum = 0;
+int soilHum = 0;
 
 /* rain sensor */
-#define runPIN 15
-float rainnSensor = 0;
+#define rainPIN 15
+int rainSensor = 0;
 
 /* Automatic Control Parameters Definition 
 #define DRY_SOIL      30
@@ -103,7 +103,7 @@ void displayData(void)
   Serial.print(soilHum);
   Serial.println("%");
 
-  
+  oled.setTextSize(1.5);
   oled.setCursor(0,0);       // set position to display     
   oled.println("Proj.Irrigacao");
   oled.display();
@@ -139,6 +139,16 @@ void displayData(void)
   oled.setTextSize(1);
   oled.print("%");
   oled.display();
+   
+  //rain Sensor
+  oled.setTextSize(1);
+  oled.setCursor(0,50);              // Set cursor position, start of line 2
+  oled.print("rain: ");
+  oled.print(rainSensor);
+  oled.print(" ");
+  oled.setTextSize(1);
+  oled.print("%");
+  oled.display();
   delay(100);
   oled.clearDisplay(); 
 }
@@ -147,9 +157,11 @@ void getSensors(void)
 {
   airTemp = dht.readTemperature();
   airHum = dht.readHumidity();
-  float sensorValue = analogRead(soilHumPIN);
-  soilHum = map(sensorValue, 0, 4095, 0, 100); // 0-100%
-  
+  float soilValue = analogRead(soilHumPIN);
+  soilHum = map(soilValue, 0, 4095, 0, 100); // 0-100%
+  float rainValue  =analogRead(rainPIN); ;
+  rainSensor = map(rainValue,4095, 0, 0, 100);
+ 
 }
 /*
 0 ~300 solo seco
