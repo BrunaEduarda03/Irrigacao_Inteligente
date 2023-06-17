@@ -10,61 +10,52 @@
 #include <WiFiClient.h>
 #include <BlynkSimpleEsp32.h>
 
-
 /*DHT11*/
 #include "DHT.h"
-#define DHTPIN 4  
-#define DHTTYPE DHT11 
 
 /* Buttons */
 #define PUMP_ON_BUTTON 19         //push-button PUMP (blue)
 #define PUMP_ON_LED 33            //LED BLUE
 #define LAMP_ON_BUTTON 18        //push-button LAMP (yellow)
 #define LAMP_ON_LED 32          //LED YELLOW
-//#define SENSORS_READ_BUTTON 13   //push-button SENSOR (red)
-
-// Atuadores
-boolean pumpStatus = 0;
-boolean lampStatus = 0;
-int timePumpOn = 10; // turn Pump On in minutes
 
 /* Automatic Control Parameters Definition */
 #define DRY_SOIL      40
 #define WET_SOIL      70
 #define COLD_TEMP     12
 #define HOT_TEMP      25
-#define TIME_PUMP_ON  10
-#define TIME_LAMP_ON  10
-int PUMPstate =0;
-int LAMPstate=0;
+#define TIME_PUMP_ON  5
+#define TIME_LAMP_ON  5
+
+#define soilHumPIN 39
+#define rainPIN 36
+#define DHTPIN 4  
+#define DHTTYPE DHT11 
+
 /*-------- Token de Autenticação ----------- */
 char auth[] = "Qyvl_WEZVA4TEx0aOWgYQxdTLvplmwY2";
 /*-------- Configurações de Wi-Fi ----------- */
-char ssid[] = "connect-izaias";
-char pass[] = "244466666"; 
+char ssid[] = "Bruna";
+char pass[] = "bruna0303"; 
 
 BlynkTimer timer;
 Adafruit_SSD1306 oled(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 /*Air Temperature & Humidity*/
 DHT dht(DHTPIN, DHTTYPE);
-int airHum = 0;
-int airTemp = 0;
-/* Soil Humidity */
-#define soilHumPIN 39
-int soilHum = 0;
-/* rain sensor */
-#define rainPIN 36
-int rainSensor = 0;
 
-/* Automatic Control Parameters Definition 
-#define DRY_SOIL      30
-#define WET_SOIL      70
-#define COLD_TEMP     12
-#define HOT_TEMP      26
-#define TIME_PUMP_ON  15
-#define TIME_LAMP_ON  15
-*/
+// Sensors
+float airHum = 0;
+float airTemp = 0;
+float soilHum = 0;
+float rainSensor = 0;
+
+// Atuadores
+boolean pumpStatus = 0;
+boolean lampStatus = 0;
+int timePumpOn = 10; // turn Pump On in minutes
+int PUMPstate = 0;
+int LAMPstate = 0;
 
 void myTimer() 
 {
@@ -76,6 +67,30 @@ void myTimer()
   Blynk.virtualWrite(V4,rainSensor);
 }
 
+BLYNK_WRITE(V3) // pump water blynk
+{
+  if(param.asInt() == 1)
+  {
+    Serial.println("Ligando água");
+    turnPumpOn();
+  }else{
+    digitalWrite(PUMP_ON_LED, LOW);
+  }
+ 
+}
+
+BLYNK_WRITE(V5) // led on blynk
+{
+  if(param.asInt() == 1)
+  {
+    Serial.println("Ligando led");
+    turnLampOn();
+  }else{
+    digitalWrite(LAMP_ON_LED, LOW);
+  }
+ 
+}
+
 void setup()
 {       
   Serial.begin(115200);
@@ -85,7 +100,6 @@ void setup()
   pinMode(LAMP_ON_LED, OUTPUT);
   pinMode(PUMP_ON_BUTTON, INPUT_PULLUP); // Button
   pinMode(LAMP_ON_BUTTON, INPUT_PULLUP); // Button
-  //pinMode(SENSORS_READ, INPUT_PULLUP); // Button
   dht.begin();
   oledStart();
   delay(1000);
@@ -93,15 +107,12 @@ void setup()
 
 void loop()
 {
-  // Runs all Blynk stuff
   Blynk.run(); 
   timer.run(); 
-
-  // elapsedTime = millis()-startTiming;   // Start timer for measurements
   readSensors();
   displayData();
-  //readLocalCmd(); //Read local button status
-  autoControlPlantation();
+  readLocalCmd(); //Read local button status
+  //autoControlPlantation();
 
 }
 
@@ -119,7 +130,6 @@ void oledStart(void)
   oled.println("Projeto");
   oled.println("Irrigacao");
   oled.display();
-  
 }
 
 
@@ -155,6 +165,7 @@ void displayData(void)
       oled.print("%");
 
       //soil Humidity
+      Serial.println();
       oled.setTextSize(1);
       oled.setCursor(0,40);              // Set cursor position, start of line 2
       oled.print("soilHum: ");
@@ -183,46 +194,22 @@ void readSensors(void)
   rainSensor = map(analogRead(rainPIN), 0,4095,100,0);
 }
 
-/*void readLocalCmd() 
+//controle manual da plantação
+void readLocalCmd() 
 {  
-  int digiValue = debounce(PUMP_ON_BUTTON);
-  if (!digiValue) 
-  {
-    pumpStatus = !pumpStatus;
-    delay (TIME_PUMP_ON*1000);
-    //showDataLCD();
-    aplyCmd();
+  PUMPstate = digitalRead(PUMP_ON_BUTTON);
+  LAMPstate = digitalRead(LAMP_ON_BUTTON);
+
+  if(PUMPstate == LOW){
+    Serial.println("Botão pump pressionado");
+     turnPumpOn();
   }
 
-  digiValue = debounce(LAMP_ON_BUTTON);
-  if (!digiValue) 
-  {
-    lampStatus = !lampStatus;
-    delay (TIME_LAMP_ON*1000);
-    //showDataLCD();
-    aplyCmd();
-  }
-  /*
-  digiValue = debounce(SENSORS_READ);
-  if (!digiValue) 
-  {
-    digitalWrite(YELLOW_LED, HIGH); 
-    lcd.setCursor (0,0);
-    lcd.print("< Updating Sensors >");
-    readSensors();
-    digitalWrite(YELLOW_LED, LOW); 
-  }
-
-}
-/*
-/*Aplicar Comandos nos atuadores*/
-void aplyCmd()
-{
-    if (pumpStatus == 1) digitalWrite(PUMP_ON_LED, HIGH);
-    if (pumpStatus == 0) digitalWrite(PUMP_ON_LED, LOW);
+  if(LAMPstate == LOW){
+    Serial.println("Botão led pressionado");
+    turnLampOn();
+  } 
   
-    if (lampStatus == 1) digitalWrite(LAMP_ON_LED, HIGH);
-    if (lampStatus == 0) digitalWrite(LAMP_ON_LED, LOW);
 }
 
 //Plantação automatizada
@@ -247,17 +234,13 @@ void autoControlPlantation(void)
 
 void turnPumpOn()
 {
-  pumpStatus = 1;
-  aplyCmd();
+  digitalWrite(PUMP_ON_LED, HIGH);
   delay (TIME_PUMP_ON*1000);
-  pumpStatus = 0;
-  aplyCmd();
+  digitalWrite(PUMP_ON_LED, LOW);
 }
 void turnLampOn()
 {
-  lampStatus = 1;
-  aplyCmd();
+  digitalWrite(LAMP_ON_LED, HIGH);
   delay (TIME_LAMP_ON*1000);
-  lampStatus = 0;
-  aplyCmd();
+  digitalWrite(LAMP_ON_LED, LOW);
 }
