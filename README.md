@@ -1,5 +1,5 @@
 # Irrigacao Inteligente 🪴
-Irrigação Inteligente – Sua Planta sempre bem cuidada!
+Sua Planta sempre bem cuidada!
 
 ## :speech_balloon: Sobre 
 O projeto tem como objetivo o desenvolvimento de um sistema de irrigação automatizadode de baixo custo e com pequeno consumo elétrico, que tem como objetivo realizar o monitoramento da umidade do solo por meio de um sensor, exibindo em uma interface web os dados de tempo, umidade e temperatura obtidas por meio de módulos específicos. Com o auxílio de um aplicativo, é possível visualizar os dados em tempo real, além de propocionar conforto e praticidade aos usuários.
@@ -48,6 +48,7 @@ Insira sua rede wifi no código
 <h1>
 <img alt="irrigacao" src="https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/04171d9b-2c04-4722-a303-0888fc771c6e" width="800px" align="center" />
 </h1> 
+ <p>Obs: Não conseguimos encontrar o sensor de chuva para colocar no esquemático.</p>
 
 ### Montagem do Circuito :zap:
 <h1>
