@@ -24,6 +24,7 @@
 #define WET_SOIL      70
 #define COLD_TEMP     12
 #define HOT_TEMP      25
+#define RAINING 50
 #define TIME_PUMP_ON  5
 #define TIME_LAMP_ON  5
 
@@ -69,10 +70,12 @@ void myTimer()
 
 BLYNK_WRITE(V3) // pump water blynk
 {
-  if(param.asInt() == 1)
+  int stateButton = param.asInt();
+  if(stateButton == 1)
   {
     Serial.println("Ligando água");
     turnPumpOn();
+    stateButton = 0;
   }else{
     digitalWrite(PUMP_ON_LED, LOW);
   }
@@ -81,10 +84,12 @@ BLYNK_WRITE(V3) // pump water blynk
 
 BLYNK_WRITE(V5) // led on blynk
 {
-  if(param.asInt() == 1)
+  int stateButton = param.asInt();
+  if(stateButton == 1)
   {
     Serial.println("Ligando led");
     turnLampOn();
+    stateButton = 0;
   }else{
     digitalWrite(LAMP_ON_LED, LOW);
   }
@@ -112,8 +117,7 @@ void loop()
   readSensors();
   displayData();
   readLocalCmd(); //Read local button status
-  //autoControlPlantation();
-
+  autoControlPlantation();
 }
 
 /***************************************************
@@ -165,7 +169,7 @@ void displayData(void)
       oled.print("%");
 
       //soil Humidity
-      Serial.println();
+      
       oled.setTextSize(1);
       oled.setCursor(0,40);              // Set cursor position, start of line 2
       oled.print("soilHum: ");
@@ -209,7 +213,6 @@ void readLocalCmd()
     Serial.println("Botão led pressionado");
     turnLampOn();
   } 
-  
 }
 
 //Plantação automatizada
@@ -218,29 +221,37 @@ void autoControlPlantation(void)
   PUMPstate = digitalRead(PUMP_ON_BUTTON);
   LAMPstate = digitalRead(LAMP_ON_BUTTON);
 /*Ligar torneira*/
-  if (soilHum < DRY_SOIL || PUMPstate == HIGH ) {
+  if (soilHum < DRY_SOIL ) {
       turnPumpOn();
     }else{
       digitalWrite(PUMP_ON_LED, LOW);
     }
 /*fonte de calor*/
-  if (airTemp < COLD_TEMP && soilHum < WET_SOIL || LAMPstate == HIGH) 
+  if (airTemp < COLD_TEMP && soilHum < WET_SOIL) 
   {
    turnLampOn();
   }else{
     digitalWrite(LAMP_ON_LED, LOW);
+  }
+
+  //rain sensor 
+  if(rainSensor > RAINING){
+    Blynk.logEvent("RAIN","Está Chovendo...");
+    turnPumpOn();
   }
 }
 
 void turnPumpOn()
 {
   digitalWrite(PUMP_ON_LED, HIGH);
+  Blynk.logEvent("PUMP","Warning ==>> Torneira Ligada");
   delay (TIME_PUMP_ON*1000);
   digitalWrite(PUMP_ON_LED, LOW);
 }
 void turnLampOn()
 {
   digitalWrite(LAMP_ON_LED, HIGH);
+  Blynk.logEvent("LAMP","Warning ==>> Lampada Ligada");
   delay (TIME_LAMP_ON*1000);
   digitalWrite(LAMP_ON_LED, LOW);
 }
