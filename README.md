@@ -64,6 +64,11 @@ Navegador 🖥️
 <img alt="irrigacao" src="https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/c184e4f5-dbc9-4cbd-99b1-6a242475b20d" width="800px" align="center" />
 </h1> 
 
+### Circuito + Interface Gráfica
+<h1>
+<img alt="irrigacao" src="https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/e528739d-41a3-4c2f-98a0-22ecb6929d8a" width="800px" align="center" />
+</h1> 
+
 ## :technologist: Demo 
 https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/cb087cfa-ade4-4f8e-9a8c-b47d53bc4b42
 
