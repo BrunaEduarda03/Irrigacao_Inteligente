@@ -52,7 +52,7 @@ Insira sua rede wifi no código
 
 ### Montagem do Circuito :zap:
 <h1>
-<img alt="irrigacao" src="https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/3cb3d1c1-ead1-43b4-b377-76ff09d30984" width="800px" align="center" />
+<img alt="irrigacao" src="https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/abac0f49-99a3-49c3-a79d-6667c6442194" width="800px" align="center" />
 </h1> 
 
 ### 📶 Inteface Gráfica - Blynk
