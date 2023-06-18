@@ -13,7 +13,7 @@
 /*DHT11*/
 #include "DHT.h"
 
-/* Buttons */
+/* Buttons & LED'S */
 #define PUMP_ON_BUTTON 19         //push-button PUMP (blue)
 #define PUMP_ON_LED 33            //LED BLUE
 #define LAMP_ON_BUTTON 18        //push-button LAMP (yellow)
@@ -39,11 +39,9 @@ char auth[] = "Qyvl_WEZVA4TEx0aOWgYQxdTLvplmwY2";
 char ssid[] = "Bruna";
 char pass[] = "bruna0303"; 
 
-BlynkTimer timer;
-Adafruit_SSD1306 oled(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
-
-/*Air Temperature & Humidity*/
-DHT dht(DHTPIN, DHTTYPE);
+BlynkTimer timer;                                                    /*Timer Blynk*/
+Adafruit_SSD1306 oled(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);     /*OLED SDD1306*/
+DHT dht(DHTPIN, DHTTYPE);                                         /*Air Temperature & Humidity*/
 
 // Sensors
 float airHum = 0;
@@ -54,15 +52,12 @@ float rainSensor = 0;
 // Atuadores
 boolean pumpStatus = 0;
 boolean lampStatus = 0;
-int timePumpOn = 10; // turn Pump On in minutes
 int PUMPstate = 0;
 int LAMPstate = 0;
 
 void myTimer() 
 {
-  // This function describes what will happen with each timer tick
-  // timer é criado para impedir que aconteça uma sobrecarga no servidor
-  Blynk.virtualWrite(V0,airTemp);      // variável Temp é alocada na variável virtual V0
+  Blynk.virtualWrite(V0,airTemp);     
   Blynk.virtualWrite(V1,airHum);
   Blynk.virtualWrite(V2,soilHum);
   Blynk.virtualWrite(V4,rainSensor);
@@ -79,7 +74,6 @@ BLYNK_WRITE(V3) // pump water blynk
   }else{
     digitalWrite(PUMP_ON_LED, LOW);
   }
- 
 }
 
 BLYNK_WRITE(V5) // led on blynk
@@ -93,14 +87,13 @@ BLYNK_WRITE(V5) // led on blynk
   }else{
     digitalWrite(LAMP_ON_LED, LOW);
   }
- 
 }
 
 void setup()
 {       
   Serial.begin(115200);
-  Blynk.begin(auth, ssid, pass);                // Inicializa o Blynk
-  timer.setInterval(1000L, myTimer);            // Inicializa o Timer do blynk para enviar os dados para o APP
+  Blynk.begin(auth, ssid, pass);                // Start Blynk
+  timer.setInterval(1000L, myTimer);            // Start Timer of blynk to send data to the app
   pinMode(PUMP_ON_LED, OUTPUT);
   pinMode(LAMP_ON_LED, OUTPUT);
   pinMode(PUMP_ON_BUTTON, INPUT_PULLUP); // Button
@@ -116,7 +109,7 @@ void loop()
   timer.run(); 
   readSensors();
   displayData();
-  readLocalCmd(); //Read local button status
+  readLocalCmd();           
   autoControlPlantation();
 }
 
@@ -135,8 +128,6 @@ void oledStart(void)
   oled.println("Irrigacao");
   oled.display();
 }
-
-
 /***************************************************
  * Display data at Serial Monitora & OLED Display
  **************************************************/
@@ -146,7 +137,6 @@ void displayData(void)
       oled.setTextSize(1);
       oled.setCursor(0,0);       // set position to display     
       oled.println("Proj.Irrigacao");
-
       //air temperature
       oled.setTextSize(1);
       oled.setCursor(0,20);              // Set cursor position, start of line 2
@@ -158,7 +148,6 @@ void displayData(void)
       oled.write(167);
       oled.setTextSize(1);
       oled.print("C");
-
       //air Humidity
       oled.setTextSize(1);
       oled.setCursor(0,30);              // Set cursor position, start of line 2
@@ -167,9 +156,7 @@ void displayData(void)
       oled.print(" ");
       oled.setTextSize(1);
       oled.print("%");
-
       //soil Humidity
-      
       oled.setTextSize(1);
       oled.setCursor(0,40);              // Set cursor position, start of line 2
       oled.print("soilHum: ");
@@ -177,7 +164,6 @@ void displayData(void)
       oled.print(" ");
       oled.setTextSize(1);
       oled.print("%");
-      
       //rain Sensor
       oled.setTextSize(1);
       oled.setCursor(0,50);              // Set cursor position, start of line 2
@@ -220,20 +206,19 @@ void autoControlPlantation(void)
 { 
   PUMPstate = digitalRead(PUMP_ON_BUTTON);
   LAMPstate = digitalRead(LAMP_ON_BUTTON);
-/*Ligar torneira*/
+  //Ligar torneira
   if (soilHum < DRY_SOIL ) {
       turnPumpOn();
     }else{
       digitalWrite(PUMP_ON_LED, LOW);
     }
-/*fonte de calor*/
+  //fonte de calor 
   if (airTemp < COLD_TEMP && soilHum < WET_SOIL) 
   {
    turnLampOn();
   }else{
     digitalWrite(LAMP_ON_LED, LOW);
   }
-
   //rain sensor 
   if(rainSensor > RAINING){
     Blynk.logEvent("RAIN","Está Chovendo...");
