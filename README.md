@@ -58,7 +58,7 @@ Insira sua rede wifi no código
 ### 📶 Inteface Gráfica - Blynk
 Aplicativo :iphone:
 <h1>
-<img alt="irrigacao" src="https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/05cc0cba-6612-48fa-9ae2-dbe31de7f751" width="400px" align="center" />
+<img alt="irrigacao" src="https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/f8f8fbd0-0464-4d74-927d-ab277bef4f7f" width="800px" align="center" />
 </h1> 
 Navegador 🖥️
 <h1>
@@ -71,7 +71,7 @@ Navegador 🖥️
 </h1> 
 
 ## :technologist: Demo 
-https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/cb087cfa-ade4-4f8e-9a8c-b47d53bc4b42
+https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/a03cd066-a6de-4f43-8e58-a7db4e847d7a
 
 
 ## :speaking_head: Feedbacks sobre o projeto!
