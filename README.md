@@ -55,7 +55,7 @@ Insira sua rede wifi no código
 <img alt="irrigacao" src="https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/abac0f49-99a3-49c3-a79d-6667c6442194" width="800px" align="center" />
 </h1> 
 
-### 📶 Inteface Gráfica - Blynk
+### 📶 Inteface Gráfica 
 Aplicativo :iphone:
 <h1>
 <img alt="irrigacao" src="https://github.com/BrunaEduarda03/Irrigacao_Inteligente/assets/73250271/f8f8fbd0-0464-4d74-927d-ab277bef4f7f" width="800px" align="center" />
